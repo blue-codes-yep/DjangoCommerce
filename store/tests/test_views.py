@@ -7,7 +7,7 @@ from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
 from store.models import Category, Product
-from store.views import all_products
+from store.views import product_all
 
 
 class TestViewResponses(TestCase):
@@ -23,7 +23,10 @@ class TestViewResponses(TestCase):
         """
         Test allowed hosts
         """
-        response = self.c.get('/')
+        response = self.c.get('/', HTTP_HOST='nodomain.com')
+        self.assertEqual(response.status_code, 400)
+
+        response = self.c.get('/', HTTP_HOST='yourdomain.com')
         self.assertEqual(response.status_code, 200)
 
     def test_product_detail_url(self):
@@ -47,8 +50,8 @@ class TestViewResponses(TestCase):
         Example: Using request factory
         """
         request = self.factory.get('/summer-drop')
-        response = all_products(request)
+        response = product_all(request)
         html = response.content.decode('utf8')
-        self.assertIn('<title>My Shop</title>', html)
+        self.assertIn('<title>Not Another Me</title>', html)
         self.assertTrue(html.startswith('\n<!DOCTYPE html>\n'))
         self.assertEqual(response.status_code, 200)

@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-3dn_cgi($@u1a&sn4y-ez)46691*^58d(uye2bxv4p@78#mw5@
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']
 
 
 INSTALLED_APPS = [
